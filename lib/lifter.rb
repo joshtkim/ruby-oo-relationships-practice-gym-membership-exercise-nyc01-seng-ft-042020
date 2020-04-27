@@ -1,12 +1,12 @@
 class Lifter
-  attr_reader :name, :lift_total
 
+  attr_accessor :name, :total
   @@all = []
 
-  def initialize(name, lift_total)
+  def initialize(name, total)
     @name = name
-    @lift_total = lift_total
-    @@all << self
+    @total = total
+    Lifter << self
   end
 
   def self.all
@@ -14,34 +14,27 @@ class Lifter
   end
 
   def memberships
-    Membership.all.select do |membership|
-      membership.lifter == self
-    end
+    Membership.all.select {|memberships| memberships.lifter == self}
   end
 
   def gyms
-    memberships.map do |membership|
-      membership.gym
-    end
+    memberships.map {|gym| gym.gym}
   end
 
-  def average_total
-     @@all.map do |lift_total|
-      lift_total.lift_total
-     end.sum / @@all.count
+  def average_lift
+    Lifter.map {|total| total.total}.sum/ @@all.count
   end
+
+
 
   def total_cost
-    memberships.map do |cost|
-      cost.cost
-    end.sum
+    memberships.map {|cost| cost.cost}
   end
 
-  def new_mem(gym, cost)
-    Membership.new(cost, gym, self)
+  def new(gym, cost)
+    binding.pry
+    Membership.new(self, gym, cost) 
+    binding.pry
   end
-
-
-
 
 end

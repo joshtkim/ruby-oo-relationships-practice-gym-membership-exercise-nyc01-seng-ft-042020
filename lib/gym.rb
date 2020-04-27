@@ -1,8 +1,8 @@
 class Gym
+
   attr_reader :name
-
   @@all = []
-
+  
   def initialize(name)
     @name = name
     @@all << self
@@ -13,31 +13,22 @@ class Gym
   end
 
   def memberships
-    Membership.all.select do |memberships|
-      memberships.gym == self
-    end
+    Membership.all.select {|x| x.gym == self}
   end
 
-  def lifter
-    memberships.map do |lifter|
-      lifter.lifter
-    end
+  def lifters
+    memberships.map {|x| x.lifter}
   end
 
-
-def list
-  lifter.map do |name|
-    name.name
+  def list_mem
+    memberships.map {|x| x.lifter.name}
   end
-end
 
-def total
-  lifter.map do |lift|
-    lift.lift_total
-  end.sum
-end
+  def list_total
+    memberships.map {|x| x.lifter.total}.sum
+  end
 
-  
 
 
 end
+
